@@ -1,0 +1,430 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Unlock premium Resortopia features for free! Complete quick steps to get exclusive decorations and in-game perks.">
+  <title>Unlock Resortopia Premium Features Free</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5e1fd 0%, #d7f0ff 100%);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #6b4e8e;
+    }
+
+    .logo span {
+      color: #ff9cc7;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      color: #6b4e8e;
+      margin-bottom: 1rem;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .hero h1 span {
+      color: #ff9cc7;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 2rem;
+      max-width: 600px;
+    }
+
+    .cta-button {
+      background: #ff9cc7;
+      color: #fff;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Gameplay Section */
+    .gameplay {
+      padding: 4rem 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      text-align: center;
+    }
+
+    .gameplay h2 {
+      font-size: 2rem;
+      color: #6b4e8e;
+      margin-bottom: 2rem;
+    }
+
+    .video-container {
+      max-width: 800px;
+      margin: 0 auto;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-container video {
+      width: 100%;
+      display: block;
+    }
+
+    /* Benefits Section */
+    .benefits {
+      padding: 4rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .benefit-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .benefit-card img {
+      width: 60px;
+      margin-bottom: 1rem;
+    }
+
+    .benefit-card h3 {
+      font-size: 1.3rem;
+      color: #6b4e8e;
+      margin-bottom: 0.5rem;
+    }
+
+    .benefit-card p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+      padding: 4rem 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      text-align: center;
+    }
+
+    .testimonials h2 {
+      font-size: 2rem;
+      color: #6b4e8e;
+      margin-bottom: 2rem;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 20px;
+      color: #555;
+    }
+
+    .testimonial-card p {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial-card span {
+      font-weight: 600;
+      color: #6b4e8e;
+    }
+
+    /* FAQ Section */
+    .faq {
+      padding: 4rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq h2 {
+      font-size: 2rem;
+      color: #6b4e8e;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .faq-item {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      cursor: pointer;
+    }
+
+    .faq-item h3 {
+      font-size: 1.2rem;
+      color: #6b4e8e;
+      margin-bottom: 0.5rem;
+    }
+
+    .faq-item p {
+      font-size: 1rem;
+      color: #555;
+      display: none;
+    }
+
+    .faq-item.active p {
+      display: block;
+    }
+
+    /* Footer */
+    .footer {
+      background: #6b4e8e;
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .footer p {
+      font-size: 1rem;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .cta-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
+
+      .gameplay h2, .testimonials h2, .faq h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">Resortopia <span>Premium</span></div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Unlock <span>Resortopia</span> Premium Features for Free! 🧁</h1>
+    <p>Get exclusive decorations, in-game currency, and cozy perks by completing quick steps. No credit card needed!</p>
+    <a href="YOUR_OGADS_LOCKER_URL" class="cta-button">Unlock Now</a>
+  </section>
+
+  <!-- Gameplay Section -->
+  <section class="gameplay">
+    <h2>Experience the Cozy Magic of Resortopia</h2>
+    <div class="video-container">
+      <!-- Replace with your gameplay video URL or use a placeholder -->
+      <video controls>
+        <source src="https://example.com/resortopia-gameplay.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="benefits">
+    <div class="benefit-card">
+      <img src="https://img.icons8.com/?size=100&id=11272&format=png&color=6b4e8e" alt="Free Icon">
+      <h3>100% Free</h3>
+      <p>No hidden fees or subscriptions. Unlock premium features at no cost.</p>
+    </div>
+    <div class="benefit-card">
+      <img src="https://img.icons8.com/?size=100&id=10484&format=png&color=6b4e8e" alt="Fast Icon">
+      <h3>Quick & Easy</h3>
+      <p>Complete simple steps in minutes to access exclusive content.</p>
+    </div>
+    <div class="benefit-card">
+      <img src="https://img.icons8.com/?size=100&id=11031&format=png&color=6b4e8e" alt="Safe Icon">
+      <h3>Safe & Secure</h3>
+      <p>Your data is protected with trusted, verified partners.</p>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <h2>What Players Are Saying</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <p>“I got premium decorations in Resortopia for free! So easy and fun!”</p>
+        <span>– Sarah, Gamer</span>
+      </div>
+      <div class="testimonial-card">
+        <p>“The steps took 5 minutes, and now my inn looks adorable!”</p>
+        <span>– Mia, Student</span>
+      </div>
+      <div class="testimonial-card">
+        <p>“Love the cozy vibes and free perks. Highly recommend!”</p>
+        <span>– Emma, Content Creator</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How do I unlock premium features?</h3>
+      <p>Click “Unlock Now” and complete a few quick steps, like installing apps or signing up for free trials. It takes just minutes!</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is this really free?</h3>
+      <p>Yes! There are no costs or hidden fees. You only need to complete the steps to access your rewards.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is my information safe?</h3>
+      <p>Absolutely. We partner with trusted platforms to ensure your data is secure and protected.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What kind of rewards can I get?</h3>
+      <p>You’ll unlock exclusive Resortopia decorations, in-game currency, and tips to enhance your cozy inn!</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 Resortopia Premium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // FAQ Toggle Functionality
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('active');
+      });
+    });
+
+    // Smooth Scroll for Internal Links (if any)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // GSAP Animation (Optional, if you want to add a CDN)
+    // Uncomment and add GSAP CDN for advanced animations
+    /*
+    gsap.from('.hero h1', { opacity: 0, y: 50, duration: 1, delay: 0.5 });
+    gsap.from('.hero p', { opacity: 0, y: 50, duration: 1, delay: 0.7 });
+    gsap.from('.cta-button', { opacity: 0, scale: 0.8, duration: 1, delay: 0.9 });
+    */
+  </script>
+</body>
+</html>
